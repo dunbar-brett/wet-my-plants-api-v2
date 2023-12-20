@@ -5,6 +5,7 @@ version: '3.8'
 services:
   web:
     build: .
+    container_name: fastapi
     command: uvicorn app.main:app --host 0.0.0.0
     volumes:
       - .:/app
