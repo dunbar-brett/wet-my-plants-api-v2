@@ -4,7 +4,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.core import config, tasks  
  
 from app.api.routes import router as api_router
- 
+import logging
+
+logger = logging.getLogger(__name__)
  
 def get_application():
     app = FastAPI(title=config.PROJECT_NAME, version=config.VERSION)  
@@ -17,6 +19,9 @@ def get_application():
         allow_headers=["*"],
     )
  
+    logger.info("--- APP STARTING ---")
+    logger.info(f"--- Config DB URL {config.DATABASE_URL} ---")
+    logger.info(f"--- Config DB URL {config.POSTGRES_DB} ---")
     app.add_event_handler("startup", tasks.create_start_app_handler(app))
     app.add_event_handler("shutdown", tasks.create_stop_app_handler(app))
  
