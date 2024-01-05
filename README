@@ -67,6 +67,8 @@ A Dockerized API Server and Database built using FastAPI and PostgreSQL
    Additionally create a `fast_api_dev` database with user `**fast_api**` having required privileges.
    OR
    Duplicate the `**example.env**`, remove `example`. Change the Database variables in the **.env** file
+   AND
+   You can login to [pgadmin](http://127.0.0.1:16543/) using the credentials in `**.env***`
 
 9. Check the app on [wet-my-plants-api](http://127.0.0.1:8000/)
 Open your browser and navigate to [docs](http://127.0.0.1:8000/docs) to view the swagger documentation for the api.
