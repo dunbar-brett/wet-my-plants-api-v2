@@ -48,16 +48,10 @@ A Dockerized API Server and Database built using FastAPI and PostgreSQL
    For bash users
 
    `source venv/bin/activate.bash`
-6. Install the required packages
+5. Install the required packages
 
    `python -m pip install -r requirements.txt`
-7. Start the app
-
-   ```shell
-   python main.py
-   ```
-
-   7b. Start the app using Uvicorn
+6. Start the app using Uvicorn
 
    ```shell
    uvicorn app.main:app --reload --workers 1 --host 0.0.0.0 --port 8000
