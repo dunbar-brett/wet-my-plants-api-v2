@@ -22,7 +22,7 @@ A Dockerized API Server and Database built using FastAPI and PostgreSQL
 
    `docker-compose up -d --build`
 
-6. If everything completes should be available on [notes](http://127.0.0.1:8000)
+6. If everything completes should be available on [wet-my-plants-api](http://127.0.0.1:8000)
 
 7. Docs are generated on [docs](http://127.0.0.1:8000/docs)
 
