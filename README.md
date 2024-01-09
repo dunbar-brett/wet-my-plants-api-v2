@@ -66,3 +66,8 @@ A Dockerized API Server and Database built using FastAPI and PostgreSQL
 
 9. Check the app on [wet-my-plants-api](http://127.0.0.1:8000/)
 Open your browser and navigate to [docs](http://127.0.0.1:8000/docs) to view the swagger documentation for the api.
+
+
+## Gotchas
+
+1. For alembic migrations and other commands with docker run `docker-compose run server alembic YOUR-COMMAND-HERE`  
