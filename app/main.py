@@ -44,13 +44,14 @@ app = start_application()
 
 @app.get("/")
 async def main():
-    html_content = """
-        <html>
-            <head>
-            </head>
-            <body>
-                <a href="/docs">Viewtestssss Documentation</a>
-            </body>
-        </html>
-    """
-    return HTMLResponse(content=html_content, status_code=200)
+    # html_content = """
+    #     <html>
+    #         <head>
+    #         </head>
+    #         <body>
+    #             <a href="/docs">Viewtestssss Documentation</a>
+    #         </body>
+    #     </html>
+    # """
+    # return HTMLResponse(content=html_content, status_code=200)
+    return {"message":"Hello World"}

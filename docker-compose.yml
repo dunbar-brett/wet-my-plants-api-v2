@@ -38,3 +38,5 @@ services:
 
 volumes:
   postgres_data:
+
+# add networks
