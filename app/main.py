@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import HTMLResponse
 
 from app.core.config import Settings
 from app.db.session import engine
@@ -43,4 +44,14 @@ app = start_application()
 
 @app.get("/")
 async def main():
-    return {"message": "Hello World"}
+    # html_content = """
+    #     <html>
+    #         <head>
+    #         </head>
+    #         <body>
+    #             <a href="/docs">Viewtestssss Documentation</a>
+    #         </body>
+    #     </html>
+    # """
+    # return HTMLResponse(content=html_content, status_code=200)
+    return {"message":"Hello World"}

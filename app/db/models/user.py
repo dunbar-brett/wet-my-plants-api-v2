@@ -1,7 +1,8 @@
 from sqlalchemy import Boolean, Column, Integer, String
 from sqlalchemy.orm import relationship
 
-from db.models.base import Base
+from app.db.models.base_class import Base
+
 
 class User(Base):
     id = Column(Integer, primary_key=True, index=True)
@@ -10,4 +11,4 @@ class User(Base):
     is_superuser = Column(Boolean(), default=False)
     is_active = Column(Boolean(), default=True)
     plants = relationship("Plant", back_populates="user")
-    locations = relationship("Location", back_populates="user")
+    # locations = relationship("Location", back_populates="user")
