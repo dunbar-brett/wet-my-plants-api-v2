@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.core.config import Settings
-from app.db.session import engine
+from app.db.session import engine, get_db
 from app.db.models.base import Base
 from app.routes import router as api_router
 
@@ -43,4 +43,10 @@ app = start_application()
 
 @app.get("/")
 async def main():
+    get_db()
     return {"message": "Hello World"}
+
+@app.get("/testdb")
+async def test_db():
+    get_db()
+    return {"message": "Hello geet db"}
