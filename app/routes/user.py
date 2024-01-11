@@ -1,17 +1,20 @@
-from typing import List
- 
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends, status
+from sqlalchemy.orm import Session
+
+from app.db.repos.user import create_new_user, list_users
+from app.db.session import get_db
+from app.schemas.user import UserCreate, UserShow
  
  
 router = APIRouter()
  
  
+@router.post("/", response_model=UserShow, status_code=status.HTTP_201_CREATED)
+def create_user(user: UserCreate, db: Session = Depends(get_db)):
+    user = create_new_user(user=user, db=db)
+    return user
+
 @router.get("/")
-async def get_all_users() -> List[dict]:
-    users = [
-        {"id": 1, "name": "My house", "cleaning_type": "full_clean", "price_per_hour": 29.99},
-        {"id": 2, "name": "Someone else's house", "cleaning_type": "spot_clean", "price_per_hour": 19.99}
-    ]
- 
+def get_all_users(db: Session = Depends(get_db)):
+    users = list_users(db=db)
     return users
- 
