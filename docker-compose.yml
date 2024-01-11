@@ -12,9 +12,11 @@ services:
     env_file:
       - .env
     ports:
-      - 8000:8000
+      - 8008:8000
     depends_on:
       - db
+    networks:
+      - practice
 
   db:
     image: postgres:14-alpine
@@ -25,6 +27,8 @@ services:
       - .env
     volumes:
       - postgres_data:/var/lib/postgresql/data/
+    networks:
+      - practice
     
   pgadmin:
     image: dpage/pgadmin4
@@ -33,6 +37,8 @@ services:
       - .env
     ports:
         - 16543:80
+    networks:
+      - practice
     # volumes:
     #     - ./servers.json:/pgadmin4/servers.json
 
@@ -40,3 +46,5 @@ volumes:
   postgres_data:
 
 # add networks
+networks:
+  practice:

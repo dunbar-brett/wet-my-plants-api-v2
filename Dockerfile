@@ -4,7 +4,7 @@
 FROM python:3.9.18-slim
 
 # set work directory
-WORKDIR /server
+WORKDIR /app
 
 # set env variables
 ENV PYTHONDONTWRITEBYTECODE 1
