@@ -9,6 +9,5 @@ class User(Base):
     email = Column(String, nullable=False, unique=True, index=True)
     hashed_password = Column(String, nullable=False)
     is_superuser = Column(Boolean(), default=False)
-    is_active = Column(Boolean(), default=True)
     plants = relationship("Plant", back_populates="user")
     # locations = relationship("Location", back_populates="user")

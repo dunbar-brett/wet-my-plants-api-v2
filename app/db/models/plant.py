@@ -1,5 +1,4 @@
-from datetime import datetime
-from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, String
+from sqlalchemy import Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
 from app.db.models.base_class import Base
@@ -13,8 +12,6 @@ class Plant(Base):
     user_id = Column(Integer, ForeignKey("user.id"))
     user = relationship("User", back_populates="plants")
     
-    created_at = Column(DateTime, default=datetime.now)
-    is_active = Column(Boolean, default=False)
     slug = Column(String, nullable=False, unique=True)
 
     # TODO other fields for later
