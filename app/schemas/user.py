@@ -1,13 +1,21 @@
-from pydantic import BaseModel, EmailStr
+from typing import Optional
+from pydantic import BaseModel, ConfigDict, EmailStr, Field
 
 from app.db.models.plant import Plant
 
 class UserBase(BaseModel):
-    email: EmailStr
+    email: EmailStr()
+
+    model_config = ConfigDict(extra='allow')
 
 
 class UserCreate(UserBase):
-    password: str
+    password: str = Field(..., min_length=8, max_length=50)
+
+    
+class UserShow(UserBase):
+    id: int
+    is_active: bool
 
 
 # class User(UserBase):
@@ -15,14 +23,3 @@ class UserCreate(UserBase):
 #     is_active: bool
 #     is_superuser: bool
 #     plants: list[Plant] = []
-
-#     class Config:
-#         orm_mode = True
-    
-class UserShow(UserBase):
-    id: int
-    is_superuser: bool
-    is_active: bool
-
-    class Config:  # tells pydantic to convert even non dict obj to json
-        orm_mode = True

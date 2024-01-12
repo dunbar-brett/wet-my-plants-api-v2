@@ -17,10 +17,34 @@ def create_user(user: UserCreate, db: Session):
     db.refresh(db_user)
     return db_user
 
-# TODO: remove this later
-def list_users(db: Session):
-    users = db.query(User).filter(User.is_active == True).all()
-    return users
+
+def deactivate_user(id: int, db: Session):
+    user = get_user_by_id(id=id, db=db)
+    if user.get("error"):
+        return user
+    
+    user.is_active = False
+    db.commit()
+    return user
+
+
+def delete_user(id: int, db: Session):
+    user = get_user_by_id(id=id, db=db)
+    if user.get("error"):
+        return user
+    
+    db.delete(user)
+    db.commit()
+    return user
+
+
+def get_user_by_email(email: str, db: Session):
+    user = db.query(User).filter(User.email == email).first()
+    if not user:
+        return {"error": f"User with email {email} not found"}
+    
+    return user
+
 
 def get_user_by_id(id: int, db: Session):
     user = db.query(User).filter(User.id == id).first()
@@ -29,12 +53,12 @@ def get_user_by_id(id: int, db: Session):
     
     return user
 
-def get_user_by_email(email: str, db: Session):
-    user = db.query(User).filter(User.email == email).first()
-    if not user:
-        return {"error": f"User with email {email} not found"}
-    
-    return user
+
+# TODO: remove this later
+def list_users(db: Session):
+    users = db.query(User).filter(User.is_active == True).all()
+    return users
+
 
 def update_user(id: int, user: UserCreate, db: Session):
     user_email_check = db.query(User).filter(User.email == user.email).first()
@@ -46,22 +70,4 @@ def update_user(id: int, user: UserCreate, db: Session):
     user.hashed_password = Hasher.get_password_hash(user.password)
     db.commit()
     db.refresh(user)
-    return user
-
-def delete_user(id: int, db: Session):
-    user = get_user_by_id(id=id, db=db)
-    if user.get("error"):
-        return user
-    
-    db.delete(user)
-    db.commit()
-    return user
-
-def deactivate_user(id: int, db: Session):
-    user = get_user_by_id(id=id, db=db)
-    if user.get("error"):
-        return user
-    
-    user.is_active = False
-    db.commit()
     return user
