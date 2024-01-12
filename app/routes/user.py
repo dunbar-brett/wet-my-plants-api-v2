@@ -27,10 +27,24 @@ def create(user: UserCreate, db: Session = Depends(get_db)):
     user = create_user(user=user, db=db)
     return user
 
+
+@router.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete(id: int, db: Session = Depends(get_db)):
+    result = delete_user(id=id, db=db)
+    if result.get("error"):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=result.get("error")
+        )
+    
+    return {"msg": f"Deleted User with id {id}"}
+
+
 @router.get("/")
 def get_all(db: Session = Depends(get_db)):
     users = list_users(db=db)
     return users
+
 
 @router.get("/{id}", response_model=UserShow)
 def get_by_id(id: int, db: Session = Depends(get_db)):
@@ -43,6 +57,7 @@ def get_by_id(id: int, db: Session = Depends(get_db)):
     
     return user
 
+
 @router.put("/{id}", response_model=UserShow, status_code=status.HTTP_202_ACCEPTED)
 def update(id: int, user: UserCreate, db: Session = Depends(get_db)):
     user = update_user(id=id, user=user, db=db)
@@ -53,14 +68,3 @@ def update(id: int, user: UserCreate, db: Session = Depends(get_db)):
         )
     
     return user
-
-@router.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete(id: int, db: Session = Depends(get_db)):
-    result = delete_user(id=id, db=db)
-    if result.get("error"):
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail=result.get("error")
-        )
-    
-    return {"msg": f"Deleted User with id {id}"}
