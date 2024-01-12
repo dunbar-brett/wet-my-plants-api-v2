@@ -23,6 +23,7 @@ def create(user: UserCreate, db: Session = Depends(get_db)):
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Email already registered"
         )
+    
     user = create_user(user=user, db=db)
     return user
 
@@ -39,6 +40,7 @@ def get_by_id(id: int, db: Session = Depends(get_db)):
             status_code=status.HTTP_404_NOT_FOUND,
             detail="User not found"
         )
+    
     return user
 
 @router.put("/{id}", response_model=UserShow, status_code=status.HTTP_202_ACCEPTED)
@@ -49,6 +51,7 @@ def update(id: int, user: UserCreate, db: Session = Depends(get_db)):
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=user.get("error")
         )
+    
     return user
 
 @router.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT)
@@ -59,4 +62,5 @@ def delete(id: int, db: Session = Depends(get_db)):
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=result.get("error")
         )
+    
     return {"msg": f"Deleted User with id {id}"}
