@@ -3,7 +3,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.core.config import Settings
-from app.core.security import Hasher
+from app.core.hasher import Hasher
 from app.db.models.user import User
 
 # logging.basicConfig(level=logging.INFO)
