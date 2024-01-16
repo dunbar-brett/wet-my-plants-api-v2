@@ -14,7 +14,11 @@ class Settings:
     POSTGRES_PORT : str = os.getenv("POSTGRES_PORT",5432)
     POSTGRES_DB : str = os.getenv("POSTGRES_DB","test_db")
     DATABASE_URL = f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_SERVER}:{POSTGRES_PORT}/{POSTGRES_DB}"
+
     SECRET_KEY: str = os.getenv("SECRET_KEY")
+    
+    SUPER_USER_EMAIL: str = os.getenv("WMP_ADMIN_EMAIL")
+    SUPER_USER_PASSWORD: str = os.getenv("WMP_ADMIN_PASSWORD")
 
     # TODO: use later
     # ALGORITHM = "HS256"

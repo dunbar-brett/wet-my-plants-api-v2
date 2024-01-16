@@ -1,4 +1,3 @@
-from typing import Optional
 from pydantic import BaseModel, ConfigDict, EmailStr, Field
 
 from app.db.models.plant import Plant

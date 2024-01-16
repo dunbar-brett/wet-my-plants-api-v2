@@ -1,11 +1,15 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
+from sqlalchemy.orm import Session
+
 
 from app.core.config import Settings
+from app.db.init_data import create_super_user
 from app.db.session import engine
 from app.db.models.base import Base
 from app.routes import router as api_router
+
 
 
 origins = [
@@ -16,7 +20,11 @@ origins = [
 ]
 
 def create_tables():         
-	Base.metadata.create_all(bind=engine)
+    Base.metadata.create_all(bind=engine)
+
+    # TODO add a config flag around this next call 
+    with Session(engine) as session:
+        create_super_user(session)
 
 def include_router(app):
     app.include_router(api_router)
@@ -44,14 +52,14 @@ app = start_application()
 
 @app.get("/")
 async def main():
-    # html_content = """
-    #     <html>
-    #         <head>
-    #         </head>
-    #         <body>
-    #             <a href="/docs">Viewtestssss Documentation</a>
-    #         </body>
-    #     </html>
-    # """
-    # return HTMLResponse(content=html_content, status_code=200)
-    return {"message":"Hello fadfas"}
+    html_content = """
+        <html>
+            <head>
+            </head>
+            <body>
+                <a href="/docs">View Documentation</a>
+            </body>
+        </html>
+    """
+    return HTMLResponse(content=html_content, status_code=200)
+    # return {"message":"Hello fadfas"}
