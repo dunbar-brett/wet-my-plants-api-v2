@@ -65,9 +65,9 @@ def update_user(id: int, user: UserCreate, db: Session):
     if user_email_check:
         return {"error": f"User with email {user.email} already exists"}
     
-    user = db.query(User).filter(User.id == id).first()
-    user.email = user.email
-    user.hashed_password = Hasher.get_password_hash(user.password)
+    db_user = db.query(User).filter(User.id == id).first()
+    db_user.email = user.email
+    db_user.hashed_password = Hasher.get_password_hash(user.password)
     db.commit()
     db.refresh(user)
     return user

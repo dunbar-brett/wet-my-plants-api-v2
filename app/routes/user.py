@@ -37,9 +37,9 @@ def delete(id: int, db: Session = Depends(get_db)):
             detail=result.get("error")
         )
     
-    return {"msg": f"Deleted User with id {id}"}
+    return {"msg": f"Deleted User with id: {id}"}
 
-
+# TODO remove this later
 @router.get("/")
 def get_all(db: Session = Depends(get_db)):
     users = list_users(db=db)
