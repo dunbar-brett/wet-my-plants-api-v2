@@ -6,8 +6,7 @@ from app.schemas.plant import PlantCreate
 
 def create_plant(plant: PlantCreate, user_id: int, db: Session):
     db_plant = Plant(
-        name=plant.name,
-        species=plant.species,
+        **plant.model_dump(),
         user_id=user_id,
         is_active=True
     )
@@ -29,7 +28,7 @@ def deactivate_plant(id: int, db: Session):
 def delete_plant(id: int, db: Session):
     plant = get_plant_by_id(id=id, db=db)
     if not plant:
-        return plant
+        return None
     
     db.delete(plant)
     db.commit()

@@ -31,10 +31,10 @@ def create(user: UserCreate, db: Session = Depends(get_db)):
 @router.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete(id: int, db: Session = Depends(get_db)):
     result = delete_user(id=id, db=db)
-    if result.get("error"):
+    if not result:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail=result.get("error")
+            detail="User not found"
         )
     
     return {"msg": f"Deleted User with id: {id}"}
@@ -49,7 +49,7 @@ def get_all(db: Session = Depends(get_db)):
 @router.get("/{id}", response_model=UserShow)
 def get_by_id(id: int, db: Session = Depends(get_db)):
     user = get_user_by_id(id=id, db=db)
-    if user.get("error"):
+    if not user:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="User not found"

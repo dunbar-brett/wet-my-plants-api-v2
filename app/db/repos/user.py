@@ -20,7 +20,7 @@ def create_user(user: UserCreate, db: Session):
 
 def deactivate_user(id: int, db: Session):
     user = get_user_by_id(id=id, db=db)
-    if user.get("error"):
+    if not user:
         return user
     
     user.is_active = False
@@ -30,8 +30,8 @@ def deactivate_user(id: int, db: Session):
 
 def delete_user(id: int, db: Session):
     user = get_user_by_id(id=id, db=db)
-    if user.get("error"):
-        return user
+    if not user:
+        return None
     
     db.delete(user)
     db.commit()
@@ -41,7 +41,7 @@ def delete_user(id: int, db: Session):
 def get_user_by_email(email: str, db: Session):
     user = db.query(User).filter(User.email == email).first()
     if not user:
-        return {"error": f"User with email {email} not found"}
+        return None
     
     return user
 
@@ -49,7 +49,7 @@ def get_user_by_email(email: str, db: Session):
 def get_user_by_id(id: int, db: Session):
     user = db.query(User).filter(User.id == id).first()
     if not user:
-        return {"error": f"User with id {id} not found"}
+        return None
     
     return user
 
