@@ -1,16 +1,18 @@
+from typing import Optional
 from pydantic import BaseModel, ConfigDict
+from pydantic import root_validator
 
-from app.db.models.plant import Plant
 
 class PlantBase(BaseModel):
     name: str
-    species: str | None = None
+    species: Optional[str] = None
     user_id: int
 
     model_config = ConfigDict(extra='allow')
 
-class PlantCreate(PlantBase):
-    pass
+class PlantCreate(BaseModel):
+    name: str
+    species: Optional[str] = None
 
 class PlantShow(PlantBase):
     id: int

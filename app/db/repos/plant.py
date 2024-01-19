@@ -46,6 +46,11 @@ def list_plants(db: Session):
     return plants
 
 
+def list_plants_by_user(user_id: int, db: Session):
+    plants = db.query(Plant).filter(Plant.user_id == user_id).all()
+    return plants
+
+
 def update_plant(id: int, plant: PlantCreate, db: Session):
     db_plant = get_plant_by_id(id=id, db=db)
     if not db_plant:

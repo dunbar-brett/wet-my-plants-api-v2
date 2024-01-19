@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from app.db.repos.plant import create_plant, delete_plant, get_plant_by_id, list_plants, update_plant
+from app.db.repos.plant import create_plant, delete_plant, get_plant_by_id, list_plants, list_plants_by_user, update_plant
 
 from app.db.session import get_db
 from app.schemas.plant import PlantCreate, PlantShow
@@ -8,13 +8,14 @@ from app.schemas.plant import PlantCreate, PlantShow
 router = APIRouter()
 
 
-@router.post("/", response_model=PlantShow, status_code=status.HTTP_201_CREATED)
-def create(plant: PlantCreate, db: Session = Depends(get_db)):
-    db_plant = create_plant(plant=plant, user_id=1, db=db)
+# TODO: update this to depend on getting user from token
+@router.post("/{user_id}", response_model=PlantShow, status_code=status.HTTP_201_CREATED)
+def create(plant: PlantCreate, user_id: int, db: Session = Depends(get_db)):
+    db_plant = create_plant(plant=plant, user_id=user_id, db=db)
     return db_plant
 
 
-@router.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT):
+@router.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete(id: int, db: Session = Depends(get_db)):
     plant = delete_plant(id=id, db=db)
     if not plant:
@@ -29,6 +30,11 @@ def delete(id: int, db: Session = Depends(get_db)):
 @router.get("/")
 def get_all(db: Session = Depends(get_db)):
     plants = list_plants(db=db)
+    return plants
+
+@router.get("/{user_id}")
+def get_all_by_user(user_id: int, db: Session = Depends(get_db)):
+    plants = list_plants_by_user(user_id=user_id, db=db)
     return plants
 
 
