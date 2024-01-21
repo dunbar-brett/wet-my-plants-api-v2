@@ -1,17 +1,20 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
+from app.db.models.user import User
 from app.db.repos.plant import create_plant, delete_plant, get_plant_by_id, list_plants, list_plants_by_user, update_plant
 
 from app.db.session import get_db
+from app.routes.login import get_current_user
 from app.schemas.plant import PlantCreate, PlantShow
 
 router = APIRouter()
 
 
-# TODO: update this to depend on getting user from token
-@router.post("/{user_id}", response_model=PlantShow, status_code=status.HTTP_201_CREATED)
-def create(plant: PlantCreate, user_id: int, db: Session = Depends(get_db)):
-    db_plant = create_plant(plant=plant, user_id=user_id, db=db)
+@router.post("/", response_model=PlantShow, status_code=status.HTTP_201_CREATED)
+def create(plant: PlantCreate, db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)):
+    db_plant = create_plant(plant=plant, user_id=current_user.id, db=db)
+
     return db_plant
 
 

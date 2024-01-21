@@ -4,8 +4,8 @@ from sqlalchemy.orm import Session
 from app.db.repos.user import (
     create_user,
     list_users,
+    get_user,
     get_user_by_id,
-    get_user_by_email,
     update_user,
     delete_user
 )
@@ -17,7 +17,7 @@ router = APIRouter()
  
 @router.post("/", response_model=UserShow, status_code=status.HTTP_201_CREATED)
 def create(user: UserCreate, db: Session = Depends(get_db)):
-    user_with_email = get_user_by_email(email=user.email, db=db)
+    user_with_email = get_user(email=user.email, db=db)
     if user_with_email:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
